@@ -110,6 +110,11 @@ public class PrismDidClient
     {
         ledger ??= _options.DefaultLedger;
 
+        if (_httpClient.BaseAddress is null || string.IsNullOrEmpty(_httpClient.BaseAddress.AbsoluteUri))
+        {
+            return null;
+        }
+
         // We want only the DID Document -> set Accept to e.g. application/did+ld+json
         using var request = new HttpRequestMessage(HttpMethod.Get, BuildUrl(did, options, ledger));
         request.Headers.Accept.Clear();
